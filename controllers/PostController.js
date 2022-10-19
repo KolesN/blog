@@ -1,0 +1,115 @@
+import PostModel from '../models/Post.js'
+
+export const getAll = async (req, res) => {
+  try {
+    const posts = await PostModel.find().populate('user').exec()
+
+    res.json(posts)
+  } catch (e) {
+    console.log(e)
+    res.status(500).json({
+      message: 'Could not get posts'
+    })
+  }
+}
+
+export const getOne = async (req, res) => {
+  try {
+    const postId = req.params.id
+
+    PostModel.findOneAndUpdate({
+      _id: postId
+    },
+    {
+      $inc: { viewCount: 1 }
+    },
+    {
+      returnDocument: 'after'
+    },
+    (err, doc) => {
+      if (err) {
+        console.log(err)
+        return res.status(500).json({
+          message: 'Could not get post'
+        })
+      }
+
+      if (!doc) {
+        return res.status(404).json({
+          message: 'No such post'
+        })
+      }
+
+      res.json(doc)
+    })
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({
+      message: "Could not get posts",
+    });
+  }
+};
+
+export const remove = async (req, res) => {
+  try {
+    const postId = req.params.id;
+
+    PostModel.findOneAndDelete({
+      id: postId
+    }, (err, doc) => {
+      if (err) {
+        console.log(err)
+        return res.status(500).json({
+          message: 'Could not delete post'
+        })
+      }
+
+      if (!doc) {
+        return res.status(404).json({
+          message: 'Post not found'
+        })
+      }
+
+      res.json({
+        message: 'Success'
+      })
+    });
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({
+      message: "Could not get posts",
+    });
+  }
+};
+
+export const create = async (req, res) => {
+  try {
+    const { body } = req
+    const doc = new PostModel({
+      title: body.title,
+      text: body.text,
+      imageUrl: body.imageUrl,
+      tags: body.tags,
+      user: req.userId
+    })
+
+    const post = await doc.save()
+    res.json(post)
+  } catch (e) {
+    console.log(e)
+    res.status(500).json({
+      message: 'Unable to create post'
+    })
+  }
+}
+
+export const update = async (req, res) => {
+  try {
+    
+  } catch(err) {
+    console.log(err)
+    res.status(500).json({
+      message: 'Could not update'
+    })
+  }
+}
