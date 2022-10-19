@@ -105,7 +105,22 @@ export const create = async (req, res) => {
 
 export const update = async (req, res) => {
   try {
-    
+    const postId = req.params.id
+    const { body } = req
+
+    await PostModel.updateOne({
+      _id: postId
+    }, {
+      title: body.title,
+      text: body.text,
+      imageUrl: body.imageUrl,
+      user: req.userId,
+      tags: body.tags
+    })
+
+    res.json({
+      message: 'Success'
+    })
   } catch(err) {
     console.log(err)
     res.status(500).json({
