@@ -43,7 +43,7 @@ app.use("/uploads", express.static("uploads"));
 app.use(cors())
 
 app.get("/", (req, res) => {
-  console.log("aaaaaaaaaaa");
+  console.log("aaaaaaaaaaaaaaaa");
   res.send({ status: "OK" });
 });
 
