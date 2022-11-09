@@ -1,4 +1,5 @@
 import express from "express";
+import fs from 'fs'
 
 import mongoose from "mongoose";
 import multer from "multer";
@@ -21,8 +22,13 @@ mongoose
 
 const app = express();
 
+const port = process.env.PORT || 8090;
+
 const storage = multer.diskStorage({
   destination: (_, __, cb) => {
+    if (!fs.existsSync('uploads')) {
+      fs.mkdirSync('uploads');
+    }
     cb(null, "uploads");
   },
   filename: (_, file, cb) => {
@@ -81,4 +87,4 @@ app.patch(
   PostController.update
 );
 
-app.listen(3333, console.log("On port 3333"));
+app.listen(port, console.log(`On port ${port}`));

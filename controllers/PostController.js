@@ -55,7 +55,7 @@ export const getOne = async (req, res) => {
       }
 
       res.json(doc)
-    })
+    }).populate('user')
   } catch (e) {
     console.log(e);
     res.status(500).json({
@@ -103,7 +103,7 @@ export const create = async (req, res) => {
       title: body.title,
       text: body.text,
       imageUrl: body.imageUrl,
-      tags: body.tags,
+      tags: body.tags.split(','),
       user: req.userId
     })
 
@@ -129,7 +129,7 @@ export const update = async (req, res) => {
       text: body.text,
       imageUrl: body.imageUrl,
       user: req.userId,
-      tags: body.tags
+      tags: body.tags.split(',')
     })
 
     res.json({
