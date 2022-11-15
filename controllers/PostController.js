@@ -14,19 +14,19 @@ export const getLastTags = async (req, res) => {
   }
 }
 
-export const getLastComments = async (req, res) => {
-  try {
-    const posts = await PostModel.find().limit(5).exec()
+// export const getLastComments = async (req, res) => {
+//   try {
+//     const posts = await PostModel.find().limit(5).exec()
 
-    const comments = posts.map(({ comments }) => comments).flat().slice(0, 5)
-    res.json(tags)
-  } catch (err) {
-    console.log(err)
-    res.status(500).json({
-      message: 'Got no tags'
-    })
-  }
-}
+//     const comments = posts.map(({ comments }) => comments).flat().slice(0, 5)
+//     res.json(tags)
+//   } catch (err) {
+//     console.log(err)
+//     res.status(500).json({
+//       message: 'Got no tags'
+//     })
+//   }
+// }
 
 export const getAll = async (req, res) => {
   try {
