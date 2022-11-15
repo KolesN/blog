@@ -54,7 +54,7 @@ export const getMe = async (req, res) => {
     const user = await UserModel.findById(req.userId);
 
     if (!user) {
-      console.log(err);
+      console.log('No such user');
       res.status(500).json({
         message: "Unauthorized",
       });
